@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Header.css'; // Import custom CSS
 
 function Header() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
-    setDropdownOpen(!dropdownOpen);
+    setDropdownOpen((prev) => !prev);
   };
+
+  // Close dropdown if clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <header className="header">
@@ -19,21 +32,14 @@ function Header() {
             <ul>
               <li><a href="/reservations">Reservations</a></li>
               <li><a href="/menu">Menu</a></li>
-              <li><a href="/about">About Us</a></li>
-              <li className="dropdown">
+              <li><a href="/contact">Contact Us</a></li>
+              <li className="dropdown" ref={dropdownRef}>
                 <button onClick={toggleDropdown} className="dropdown-button">More</button>
                 <ul className={`dropdown-content ${dropdownOpen ? 'show' : ''}`}>
                   <li><a href="/gallery">Gallery</a></li>
                   <li><a href="/events">Events</a></li>
+                  <li><a href="/about">About Us</a></li>
                 </ul>
-              
-              
-                {/* {dropdownOpen && (
-                <ul className="dropdown-content ">
-                  <li><a href="/gallery">Gallery</a></li>
-                  <li><a href="/events">Events</a></li>
-                </ul>
-                )} */}
               </li>
             </ul>
           </div>

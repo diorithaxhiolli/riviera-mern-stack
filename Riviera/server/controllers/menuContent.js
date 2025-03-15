@@ -13,6 +13,7 @@ exports.create = async (req, res) => {
 exports.list = async (req, res) => {
     try {
         let MenuContent = await menuContent.find().populate('category').sort({createdAt: -1}).exec();
+        res.json(MenuContent);
     } catch (error) {
         res.status(400).send('List menu content failed');
     }

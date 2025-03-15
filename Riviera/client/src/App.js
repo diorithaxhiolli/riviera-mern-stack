@@ -1,17 +1,17 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+import Home from './components/home/Home';
 import Header from './components/nav/Header';
 
 function App() {
   return (
-<>
-    <Header />
-    <div className="App">
-      <header className="App-header">
-        <h1>Book a table</h1>
-      </header>
-    </div>
-
-</>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
